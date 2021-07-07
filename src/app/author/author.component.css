@@ -1,0 +1,12 @@
+img {
+  display: inline-block;
+  vertical-align: middle;
+  height: 32px;
+  width: 32px;
+  border-radius: 30px;
+}
+.name {
+  display: block;
+  font-weight: 500 !important;
+  color: #5cb85c;
+}

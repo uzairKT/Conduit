@@ -1,0 +1,52 @@
+<div class="container">
+  <div class="row">
+    <div class="col-9">
+      <tr>
+        <app-author [author]="article?.author"> </app-author>
+      </tr>
+
+      <tr>
+        <td>{{ article?.createdAt | date }}</td>
+      </tr>
+
+      <tr>
+        <td class="article-preview">{{ article?.title }}</td>
+      </tr>
+      <tr>
+        <td class="discrition">{{ article?.description }}</td>
+      </tr>
+
+      <tr>
+        <a [routerLink]="['/article/', article?.slug]">Read More...</a>
+        <!-- <td>{{article?.body | textDisplay : 20}}</td> -->
+      </tr>
+
+      <tr>
+        <ul class="tag-list">
+          <!-- ngRepeat: tag in $ctrl.article.tagList -->
+          <li class="tag-default" ng-repeat="tag in $ctrl.article.tagList">
+            {{ article?.tagList }}
+          </li>
+          <!-- end ngRepeat: tag in $ctrl.article.tagList -->
+        </ul>
+      </tr>
+    </div>
+    <div class="col-3">
+      <app-favorite-btn
+        [clicked]="article?.favorited"
+        [count]="article?.favoritesCount"
+      >
+      </app-favorite-btn>
+    </div>
+  </div>
+</div>
+
+<!-- <tr>
+    <th>Slug :</th>
+    <td>{{article?.slug}}</td>
+</tr>
+
+<tr>
+    <th>updatedAt :</th>
+    <td>{{article?.updatedAt}}</td>
+</tr> -->
