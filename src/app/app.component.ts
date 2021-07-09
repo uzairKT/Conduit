@@ -24,4 +24,12 @@ export class AppComponent implements OnInit {
       this.user = newUSer;
     });
   }
+
+  OnLogOutClick() {
+    console.log('user is ' + this.dataService.getLoggedIn());
+    this.dataService.setLoggedIn(!this.dataService.getLoggedIn());
+    console.log('user is ' + this.dataService.getLoggedIn());
+
+    this.dataService.userNav.next(this.dataService.getLoggedIn());
+  }
 }

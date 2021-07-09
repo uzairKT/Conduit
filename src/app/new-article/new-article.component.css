@@ -1,0 +1,20 @@
+.container.page {
+  margin-top: 1.5rem;
+}
+.form-group {
+  margin-bottom: 1rem;
+}
+.pull-xs-right {
+  float: right !important;
+}
+.btn-lg,
+.btn-group-lg > .btn {
+  padding: 0.75rem 1.5rem;
+  font-size: 1.25rem;
+  border-radius: 0.3rem;
+}
+.btn-primary {
+  color: #fff;
+  background-color: #5cb85c;
+  border-color: #5cb85c;
+}
