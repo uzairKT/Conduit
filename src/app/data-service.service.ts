@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 import { JsonData } from 'src/data';
 
 @Injectable({
@@ -13,12 +14,39 @@ export class DataServiceService {
     return data;
   }
 
+  getAuthorByUsername(username: string): any {
+    const data = this.articleJson.filter(
+      (element) => element.author.username == username
+    );
+    console.log(data);
+    return data;
+  }
+
+  getItemByTag(tag: string): any {
+    const data = this.articleJson.filter((element) =>
+      element.tagList.includes(tag)
+    );
+    console.log(data);
+    return data;
+  }
+
   getArticleList() {
     return this.articleJson;
   }
 
   getTagList() {
     return this.tagList;
+  }
+
+  private LoggedIn: boolean = false;
+
+  userNav = new Subject();
+
+  getLoggedIn = () => this.LoggedIn;
+  // setLoggedIn = (newVal: boolean) => (this.LoggedIn = newVal);
+
+  setLoggedIn(newVal: boolean) {
+    this.LoggedIn = newVal;
   }
 
   articleJson: Array<JsonData> = [

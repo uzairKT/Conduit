@@ -13,6 +13,10 @@ import { ArticleDetailComponent } from './article-detail/article-detail.componen
 
 import { NotFoundComponent } from './not-found/not-found.component';
 import { HomeComponent } from './home/home.component';
+import { AuthorDetailComponent } from './author-detail/author-detail.component';
+import { TagSearchComponent } from './tag-search/tag-search.component';
+import { LoginComponent } from './login/login.component';
+import { NewArticleComponent } from './new-article/new-article.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +29,11 @@ import { HomeComponent } from './home/home.component';
     PopularTagsComponent,
     ArticleDetailComponent,
     NotFoundComponent,
-    HomeComponent
+    HomeComponent,
+    AuthorDetailComponent,
+    TagSearchComponent,
+    LoginComponent,
+    NewArticleComponent
   ],
   imports: [
     BrowserModule,

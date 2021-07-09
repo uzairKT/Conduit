@@ -1,8 +1,12 @@
-
-
 <tr>
-    <td><img [src]="author?.image"></td>
-    <td class="name">{{author?.username}}</td>
+  <td>
+    <img [src]="author?.image" [routerLink]="['/author/', author?.username]" />
+  </td>
+  <a class="name" [routerLink]="['/author/', author?.username]">
+    <td>
+      {{ author?.username }}
+    </td>
+  </a>
 </tr>
 
 <!-- <tr>

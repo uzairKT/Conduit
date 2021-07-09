@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="row">
+  <div class="row" style="margin-top: 20px">
     <div class="col-9">
       <tr>
         <app-author [author]="article?.author"> </app-author>
@@ -17,19 +17,21 @@
       </tr>
 
       <tr>
-        <a [routerLink]="['/article/', article?.slug]">Read More...</a>
+        <a class="PreviewLink" [routerLink]="['/article/', article?.slug]"
+          >Read More...</a
+        >
         <!-- <td>{{article?.body | textDisplay : 20}}</td> -->
       </tr>
 
-      <tr>
-        <ul class="tag-list">
-          <!-- ngRepeat: tag in $ctrl.article.tagList -->
-          <li class="tag-default" ng-repeat="tag in $ctrl.article.tagList">
-            {{ article?.tagList }}
-          </li>
-          <!-- end ngRepeat: tag in $ctrl.article.tagList -->
-        </ul>
-      </tr>
+      <ul class="tag-list">
+        <li
+          *ngFor="let tag of article?.tagList"
+          class="tag-default tag-pill tag-outline"
+          [routerLink]="['/HashSearch/', tag]"
+        >
+          {{ tag }}
+        </li>
+      </ul>
     </div>
     <div class="col-3">
       <app-favorite-btn
@@ -40,13 +42,3 @@
     </div>
   </div>
 </div>
-
-<!-- <tr>
-    <th>Slug :</th>
-    <td>{{article?.slug}}</td>
-</tr>
-
-<tr>
-    <th>updatedAt :</th>
-    <td>{{article?.updatedAt}}</td>
-</tr> -->

@@ -1,7 +1,9 @@
 <div class="tag-list">
-    <div *ngFor = "let tag of tagList" style="display: inline-block;">
-        <a href="" class="tag-default tag-pill ng-binding ng-scope" >{{tag}}‌</a>
-    </div>
+  <div *ngFor="let tag of tagList" style="display: inline-block">
+    <a
+      [routerLink]="['/HashSearch/', tag]"
+      class="tag-default tag-pill ng-binding ng-scope"
+      >{{ tag }}‌</a
+    >
+  </div>
 </div>
-
-

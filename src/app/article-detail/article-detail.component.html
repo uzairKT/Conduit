@@ -7,13 +7,18 @@
 
       <div class="article-meta">
         <a>
-          <img [src]="article[0]?.author?.image" />
+          <img
+            [routerLink]="['/author/', article[0]?.author?.username]"
+            [src]="article[0]?.author?.image"
+          />
         </a>
 
         <div class="info">
-          <a class="author ng-binding authoExtra">{{
-            article[0]?.author?.username
-          }}</a>
+          <a
+            [routerLink]="['/author/', article[0]?.author?.username]"
+            class="author ng-binding authoExtra"
+            >{{ article[0]?.author?.username }}</a
+          >
           <span class="date ng-binding">{{
             article[0]?.createdAt | date
           }}</span>
