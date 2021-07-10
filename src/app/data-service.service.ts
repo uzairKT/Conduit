@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { JsonData } from 'src/data';
-
+import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: 'root',
 })
 export class DataServiceService {
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
   getItemBySlag(slag: string): any {
     const data = this.articleJson.filter((element) => element.slug == slag);
@@ -32,6 +32,18 @@ export class DataServiceService {
 
   getArticleList() {
     return this.articleJson;
+  }
+
+  getArticlelistApi(): Observable<JsonData[]> {
+    const article = new Subject<JsonData[]>();
+    this.http
+      .get<{ articles: JsonData[] }>(
+        'https://conduit.productionready.io/api/articles'
+      )
+      .subscribe((data) => {
+        article.next(data.articles);
+      });
+    return article;
   }
 
   getTagList() {

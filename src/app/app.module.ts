@@ -17,6 +17,7 @@ import { AuthorDetailComponent } from './author-detail/author-detail.component';
 import { TagSearchComponent } from './tag-search/tag-search.component';
 import { LoginComponent } from './login/login.component';
 import { NewArticleComponent } from './new-article/new-article.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -33,13 +34,10 @@ import { NewArticleComponent } from './new-article/new-article.component';
     AuthorDetailComponent,
     TagSearchComponent,
     LoginComponent,
-    NewArticleComponent
+    NewArticleComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule
-  ],
+  imports: [BrowserModule, HttpClientModule, AppRoutingModule],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

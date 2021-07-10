@@ -9,8 +9,12 @@ import { DataServiceService } from '../data-service.service';
 })
 export class HomeComponent implements OnInit {
   constructor(private dataService: DataServiceService) {}
-
-  ngOnInit(): void {}
+  articleJson2?: Array<JsonData>;
+  ngOnInit(): void {
+    this.dataService
+      .getArticlelistApi()
+      .subscribe((data: JsonData[]) => (this.articleJson2 = data));
+  }
 
   articleJson: Array<JsonData> = this.dataService.getArticleList();
 

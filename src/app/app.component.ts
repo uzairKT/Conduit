@@ -23,6 +23,10 @@ export class AppComponent implements OnInit {
       console.log('subsrivber', newUSer);
       this.user = newUSer;
     });
+    this.dataService.getArticlelistApi().subscribe((data) => {
+      const tempData = data;
+      console.log('In ts ', tempData);
+    });
   }
 
   OnLogOutClick() {
