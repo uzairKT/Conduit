@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { JsonData } from 'src/data';
 import { HttpClient } from '@angular/common/http';
+import { ApiService } from './api.service';
 @Injectable({
   providedIn: 'root',
 })
 export class DataServiceService {
-  constructor(private http: HttpClient) {}
+  constructor(private api: ApiService) {}
 
   getItemBySlag(slag: string): any {
     const data = this.articleJson.filter((element) => element.slug == slag);
@@ -30,20 +31,26 @@ export class DataServiceService {
     return data;
   }
 
-  getArticleList() {
-    return this.articleJson;
+  getArticleListApi(): Observable<JsonData[]> {
+    const sub = new Subject<JsonData[]>();
+    this.api.get<{ articles: JsonData[] }>('/articles').subscribe((data) => {
+      sub.next(data.articles);
+    }, this.api.errorHandler(sub));
+
+    return sub;
   }
 
-  getArticlelistApi(): Observable<JsonData[]> {
-    const article = new Subject<JsonData[]>();
-    this.http
-      .get<{ articles: JsonData[] }>(
-        'https://conduit.productionready.io/api/articles'
-      )
-      .subscribe((data) => {
-        article.next(data.articles);
-      });
-    return article;
+  getTagListApi(): Observable<string[]> {
+    const sub = new Subject<string[]>();
+    this.api.get<{ tags: string[] }>('/tags').subscribe((data) => {
+      sub.next(data.tags);
+    }, this.api.errorHandler(sub));
+
+    return sub;
+  }
+
+  getArticleList() {
+    return this.articleJson;
   }
 
   getTagList() {
