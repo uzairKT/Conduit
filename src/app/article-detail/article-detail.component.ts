@@ -15,13 +15,16 @@ export class ArticleDetailComponent implements OnInit {
   ) {}
 
   slagVal = '';
-  article?: any;
+  article?: JsonData;
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((x) => {
       console.log(x.get('slag'));
       this.slagVal = x.get('slag')!;
-      this.article = this.dataService.getItemBySlag(this.slagVal);
+      // this.article = this.dataService.getItemBySlag(this.slagVal);
+      this.dataService
+        .getItemBySlag(this.slagVal)
+        .subscribe((data: JsonData) => (this.article = data));
     });
   }
 }

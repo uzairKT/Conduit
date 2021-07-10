@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { JsonData } from 'src/data';
+import { Author, JsonData } from 'src/data';
 import { HttpClient } from '@angular/common/http';
 import { ApiService } from './api.service';
 @Injectable({
@@ -9,26 +9,72 @@ import { ApiService } from './api.service';
 export class DataServiceService {
   constructor(private api: ApiService) {}
 
-  getItemBySlag(slag: string): any {
-    const data = this.articleJson.filter((element) => element.slug == slag);
-    console.log(data);
-    return data;
+  JsonArticle?: Array<JsonData>;
+
+  // getItemBySlag(slag: string): any {
+  //   const data = this.articleJson.filter((element) => element.slug == slag);
+  //   console.log(data);
+  //   return data;
+  // }
+
+  // getAuthorByUsername(username: string): any {
+  //   const data = this.articleJson.filter(
+  //     (element) => element.author.username == username
+  //   );
+  //   console.log(data);
+  //   return data;
+  // }
+
+  // getItemByTag(tag: string): any {
+  //   const data = this.articleJson.filter((element) =>
+  //     element.tagList.includes(tag)
+  //   );
+  //   console.log(data);
+  //   return data;
+  // }
+
+  getArticlesByTag(tag: string): Observable<JsonData[]> {
+    const sub = new Subject<JsonData[]>();
+    this.api
+      .get<{ articles: JsonData[] }>('/articles/?tag=' + tag)
+      .subscribe((data) => {
+        sub.next(data.articles);
+      }, this.api.errorHandler(sub));
+
+    return sub;
   }
 
-  getAuthorByUsername(username: string): any {
-    const data = this.articleJson.filter(
-      (element) => element.author.username == username
-    );
-    console.log(data);
-    return data;
+  getArticleByUsername(username: string): Observable<JsonData[]> {
+    const sub = new Subject<JsonData[]>();
+    this.api
+      .get<{ articles: JsonData[] }>('/articles/?author=' + username)
+      .subscribe((data) => {
+        sub.next(data.articles);
+      }, this.api.errorHandler(sub));
+
+    return sub;
   }
 
-  getItemByTag(tag: string): any {
-    const data = this.articleJson.filter((element) =>
-      element.tagList.includes(tag)
-    );
-    console.log(data);
-    return data;
+  getAuthorByUsername(username: string): Observable<Author> {
+    const sub = new Subject<Author>();
+    this.api
+      .get<{ profile: Author }>('/profiles/' + username)
+      .subscribe((data) => {
+        sub.next(data.profile);
+      }, this.api.errorHandler(sub));
+    console.log('by username ', sub);
+    return sub;
+  }
+
+  getItemBySlag(slag: string): Observable<JsonData> {
+    const sub = new Subject<JsonData>();
+    this.api
+      .get<{ article: JsonData }>('/articles/' + slag)
+      .subscribe((data) => {
+        sub.next(data.article);
+      }, this.api.errorHandler(sub));
+    console.log('by slag ', sub);
+    return sub;
   }
 
   getArticleListApi(): Observable<JsonData[]> {

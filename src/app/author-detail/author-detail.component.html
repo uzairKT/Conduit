@@ -2,8 +2,8 @@
   <div class="container">
     <div class="row">
       <div class="col-xs-12 col-md-10 offset-md-1">
-        <img class="user-img" [src]="author[0]?.author?.image" />
-        <h4>{{ author[0]?.author?.username }}</h4>
+        <img class="user-img" [src]="author?.image" />
+        <h4>{{ author?.username }}</h4>
         <p></p>
         <button class="btn btn-sm action-btn btn-outline-secondary">
           <svg
@@ -18,14 +18,14 @@
               d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
             />
           </svg>
-          &nbsp; Follow {{ author[0]?.author?.username }}
+          &nbsp; Follow {{ author?.username }}
         </button>
       </div>
     </div>
   </div>
 </div>
 
-<div *ngFor="let article of author">
+<div *ngFor="let article of articles">
   <app-article [article]="article"></app-article>
   <hr />
 </div>

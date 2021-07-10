@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Author, JsonData } from 'src/data';
 import { DataServiceService } from '../data-service.service';
 
 @Component({
@@ -14,13 +15,24 @@ export class AuthorDetailComponent implements OnInit {
   ) {}
 
   userVal = '';
-  author?: any;
+  author?: Author;
+  articles?: JsonData[];
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((x) => {
       console.log(x.get('username'));
       this.userVal = x.get('username')!;
-      this.author = this.dataService.getAuthorByUsername(this.userVal);
+
+      this.dataService
+        .getAuthorByUsername(this.userVal)
+        .subscribe((data: Author) => (this.author = data));
+
+      this.dataService
+        .getArticleByUsername(this.userVal)
+        .subscribe((data: JsonData[]) => (this.articles = data));
     });
+
+    //   this.author = this.dataService.getAuthorByUsername(this.userVal);
+    // });
   }
 }

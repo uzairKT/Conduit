@@ -2,25 +2,25 @@
   <div class="banner">
     <div class="container">
       <h1 ng-bind="::$ctrl.article.title" class="ng-binding">
-        {{ article[0]?.title }}
+        {{ article?.title }}
       </h1>
 
       <div class="article-meta">
         <a>
           <img
-            [routerLink]="['/author/', article[0]?.author?.username]"
-            [src]="article[0]?.author?.image"
+            [routerLink]="['/author/', article?.author?.username]"
+            [src]="article?.author?.image"
           />
         </a>
 
         <div class="info">
           <a
-            [routerLink]="['/author/', article[0]?.author?.username]"
+            [routerLink]="['/author/', article?.author?.username]"
             class="author ng-binding authoExtra"
-            >{{ article[0]?.author?.username }}</a
+            >{{ article?.author?.username }}</a
           >
           <span class="date ng-binding">{{
-            article[0]?.createdAt | date
+            article?.createdAt | date
           }}</span>
         </div>
 
@@ -41,7 +41,7 @@
                 d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
               />
             </svg>
-            &nbsp; Follow {{ article[0]?.author?.username }}
+            &nbsp; Follow {{ article?.author?.username }}
           </button>
 
           <button class="btn btn-sm btn-outline-success">
@@ -60,7 +60,7 @@
             </svg>
             <span class="ng-binding ng-scope"> Favorite Article </span
             ><span class="counter ng-binding ng-scope"
-              >({{ article[0]?.favoritesCount }})</span
+              >({{ article?.favoritesCount }})</span
             >
           </button>
         </span>
@@ -72,7 +72,7 @@
       <div class="col-xs-12">
         <div>
           <div class="ng-binding">
-            <p>{{ article[0]?.body }}</p>
+            <p>{{ article?.body }}</p>
           </div>
         </div>
 
