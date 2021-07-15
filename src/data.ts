@@ -17,3 +17,15 @@ export interface JsonData {
   favorited: boolean;
   favoritesCount: number;
 }
+
+export interface user {
+  email: string;
+  token: string;
+  username: string;
+  bio: string;
+  image: null;
+}
+
+export interface userResponse {
+  user: user;
+}

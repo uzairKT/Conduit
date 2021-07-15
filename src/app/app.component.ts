@@ -1,3 +1,4 @@
+import { SlicePipe } from '@angular/common';
 import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
@@ -15,21 +16,23 @@ export class AppComponent implements OnInit {
   constructor(private dataService: DataServiceService) {}
 
   user = false;
+  userName = '';
 
   ngOnInit(): void {
     this.user = this.dataService.getLoggedIn();
-    console.log(this.user);
     this.dataService.userNav.subscribe((newUSer: any) => {
-      console.log('subsrivber', newUSer);
       this.user = newUSer;
+    });
+    this.userName = this.dataService.getUsername()!;
+    this.dataService.userName.subscribe((newUser: any) => {
+      this.userName = newUser;
+      console.log('app componenet ma username ', this.userName);
     });
   }
 
   OnLogOutClick() {
-    console.log('user is ' + this.dataService.getLoggedIn());
-    this.dataService.setLoggedIn(!this.dataService.getLoggedIn());
-    console.log('user is ' + this.dataService.getLoggedIn());
-
+    localStorage.removeItem('token');
+    localStorage.removeItem('userName');
     this.dataService.userNav.next(this.dataService.getLoggedIn());
   }
 }

@@ -22,4 +22,12 @@ export class ApiService {
     }, this.errorHandler(sub));
     return sub;
   }
+
+  post<T>(path: string, data: any): Observable<T> {
+    const sub = new Subject<T>();
+    this.http.post(environment.apiUrl + path, data).subscribe((data) => {
+      sub.next(data as T);
+    }, this.errorHandler(sub));
+    return sub;
+  }
 }

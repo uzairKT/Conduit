@@ -1,28 +1,34 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DataServiceService } from '../data-service.service';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
+  selector: 'app-signup',
+  templateUrl: './signup.component.html',
+  styleUrls: ['./signup.component.css'],
 })
-export class LoginComponent implements OnInit {
+export class SignupComponent implements OnInit {
   constructor(
     private dataService: DataServiceService,
     private router: Router
   ) {}
 
+  ngOnInit(): void {}
+
   errorsForUser: string[] = [];
 
-  loginForm: FormGroup = new FormGroup({
+  registerationForm: FormGroup = new FormGroup({
+    username: new FormControl('', [
+      Validators.required,
+      Validators.minLength(2),
+    ]),
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [
       Validators.required,
       Validators.email,
-      LoginComponent.passwordlength,
+      SignupComponent.passwordlength,
     ]),
   });
 
@@ -33,24 +39,20 @@ export class LoginComponent implements OnInit {
     return null;
   }
 
+  get username() {
+    return this.registerationForm.get('username')!;
+  }
   get email() {
-    return this.loginForm.get('email')!;
+    return this.registerationForm.get('email')!;
   }
   get password() {
-    return this.loginForm.get('password')!;
+    return this.registerationForm.get('password')!;
   }
 
-  ngOnInit(): void {}
-
-  OnLoginClick() {
-    // console.log('user is ' + this.dataService.getLoggedIn());
-    // this.dataService.setLoggedIn(!this.dataService.getLoggedIn());
-
-    // console.log('user is ' + this.dataService.getLoggedIn());
-
+  OnSignupClick() {
     this.errorsForUser.length = 0;
-    const valueForService = this.loginForm.value;
-    this.dataService.loginUser(valueForService).subscribe(
+    const valueForService = this.registerationForm.value;
+    this.dataService.signupUser(valueForService).subscribe(
       (data) => {
         this.dataService.setLoggedIn(data.token, data.username);
         this.dataService.userNav.next(this.dataService.getLoggedIn());

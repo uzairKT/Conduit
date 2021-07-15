@@ -3,10 +3,10 @@
     <div class="container page">
       <div class="row">
         <div class="col-md-6 offset-md-3 col-xs-12">
-          <h1 class="text-xs-center">Sign in</h1>
+          <h1 class="text-xs-center">Sign Up</h1>
           <p class="text-xs-center">
-            <a ui-sref="app.register" [routerLink]="['/signup/']">
-              Need an account?
+            <a ui-sref="app.register" [routerLink]="['/login/']">
+              Have an account?
             </a>
           </p>
 
@@ -16,8 +16,32 @@
             </div>
           </ul>
 
-          <form [formGroup]="loginForm" (ngSubmit)="OnLoginClick()">
+          <form [formGroup]="registerationForm" (ngSubmit)="OnSignupClick()">
             <fieldset>
+                <fieldset class="form-group">
+                    <input
+                      formControlName="username"
+                      name="username"
+                      class="form-control form-control-lg"
+                      type="text"
+                      placeholder="Username"
+                    />
+                    <div
+                      *ngIf="
+                      username.errors && username.errors['required'] && username.touched
+                      "
+                      class="invalid-feedback"
+                    >
+                    Username is required
+                    </div>
+                    <div
+                      *ngIf="username.errors && username.errors['minlength'] && username.touched"
+                      class="invalid-feedback"
+                    >
+                      Username must be atleast 2 chars.
+                    </div>
+                  </fieldset>
+
               <fieldset class="form-group">
                 <input
                   formControlName="email"
@@ -75,11 +99,11 @@
               <input
                 type="submit"
                 class="btn btn-lg btn-primary pull-xs-right"
-                value="Sign in"
-                [disabled]="loginForm.valid"
+                value="Sign up"
+                [disabled]="registerationForm.valid"
               />
               <!-- Sign in
-              </input> -->
+                </input> -->
             </fieldset>
           </form>
         </div>
