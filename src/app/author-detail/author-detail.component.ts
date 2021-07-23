@@ -24,6 +24,11 @@ export class AuthorDetailComponent implements OnInit {
       console.log(x.get('username'));
       this.userVal = x.get('username')!;
 
+      if (this.userVal === localStorage.getItem('userName')?.slice(1, -1)) {
+        
+        this.router.navigate(['/user/', this.userVal]);
+      }
+
       this.dataService
         .getAuthorByUsername(this.userVal)
         .subscribe((data: Author) => (this.author = data));

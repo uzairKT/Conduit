@@ -76,7 +76,7 @@ export class ApiService {
   //   return sub;
   // }
 
-  deleteAuth<T>(path: string): Observable<T> {
+  delete<T>(path: string): Observable<T> {
     const sub = new Subject<T>();
     let headers: HttpHeaders = new HttpHeaders({
       Authorization: 'Token ' + localStorage.getItem('token'),

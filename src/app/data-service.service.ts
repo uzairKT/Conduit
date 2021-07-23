@@ -37,7 +37,7 @@ export class DataServiceService {
   unfavouriteArticle(slag: string) {
     const sub = new Subject<JsonData>();
     this.api
-      .deleteAuth<articleResponse>(`/articles/${slag}/favorite`)
+      .delete<articleResponse>(`/articles/${slag}/favorite`)
       .subscribe(
         (data) => {
           sub.next(data.article);
@@ -48,6 +48,22 @@ export class DataServiceService {
 
     return sub;
   }
+
+  deleteArticle(slag: string) {
+    const sub = new Subject<JsonData>();
+    this.api
+      .delete<articleResponse>(`/articles/${slag}`)
+      .subscribe(
+        (data) => {
+          sub.next(data.article);
+          console.log(`delete article method ==>`);
+        },
+        (e) => sub.error(e)
+      );
+
+    return sub;
+  }
+
 
   followUser(username: string) {
     const sub = new Subject<profile>();
@@ -67,7 +83,7 @@ export class DataServiceService {
   unfollowUser(username: string) {
     const sub = new Subject<profile>();
     this.api
-      .deleteAuth<profileResponse>(`/profiles/${username}/follow`)
+      .delete<profileResponse>(`/profiles/${username}/follow`)
       .subscribe(
         (data) => {
           sub.next(data.profile);

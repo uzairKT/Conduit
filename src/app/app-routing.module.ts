@@ -15,7 +15,11 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 const routes: Routes = [
   { path: 'article/:slag', component: ArticleDetailComponent },
   { path: 'author/:username', component: AuthorDetailComponent },
-  { path: 'user/:username', component: UserProfileComponent },
+  {
+    path: 'user/:username',
+    component: UserProfileComponent,
+    canActivate: [AuthGuard],
+  },
   { path: 'HashSearch/:tag', component: TagSearchComponent },
   {
     path: 'newarticle',

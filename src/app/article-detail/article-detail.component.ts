@@ -20,7 +20,7 @@ export class ArticleDetailComponent implements OnInit {
   username?: string;
   follow?: boolean;
   favourite?: boolean;
-  test: any;
+  swapOptions?: boolean;
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((x) => {
@@ -30,6 +30,12 @@ export class ArticleDetailComponent implements OnInit {
       this.dataService
         .getItemBySlag(this.slagVal)
         .subscribe((data: JsonData) => {
+          if (
+            data.author.username ===
+            localStorage.getItem('userName')?.slice(1, -1)
+          ) {
+            this.swapOptions = true;
+          }
           this.article = data;
           this.username = this.article.author.username;
           this.favourite = this.article.favorited;
@@ -84,5 +90,12 @@ export class ArticleDetailComponent implements OnInit {
     } else {
       this.router.navigate(['/login']);
     }
+  }
+  onEditClick() {}
+
+  onDeleteClick() {
+    console.log('slag value ==>', this.slagVal);
+    this.dataService.deleteArticle(this.slagVal!);
+    this.router.navigate(['']);
   }
 }
