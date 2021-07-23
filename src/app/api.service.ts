@@ -17,9 +17,21 @@ export class ApiService {
 
   get<T>(path: string): Observable<T> {
     const sub = new Subject<T>();
-    this.http.get<T>(environment.apiUrl + path).subscribe((data) => {
-      sub.next(data);
-    }, this.errorHandler(sub));
+    if (localStorage.getItem('token')) {
+      let headers: HttpHeaders = new HttpHeaders({
+        Authorization: 'Token ' + localStorage.getItem('token'),
+      });
+      this.http
+        .get<T>(environment.apiUrl + path, { headers: headers })
+        .subscribe((data) => {
+          sub.next(data);
+        }, this.errorHandler(sub));
+    } else {
+      this.http.get<T>(environment.apiUrl + path).subscribe((data) => {
+        sub.next(data);
+      }, this.errorHandler(sub));
+    }
+
     return sub;
   }
 
@@ -33,24 +45,36 @@ export class ApiService {
 
   post<T>(path: string, data: any): Observable<T> {
     const sub = new Subject<T>();
-    this.http.post(environment.apiUrl + path, data).subscribe((data) => {
-      sub.next(data as T);
-    }, this.errorHandler(sub));
+    if (localStorage.getItem('token')) {
+      let headers: HttpHeaders = new HttpHeaders({
+        Authorization: 'Token ' + localStorage.getItem('token'),
+      });
+      this.http
+        .post(environment.apiUrl + path, data, { headers: headers })
+        .subscribe((data) => {
+          sub.next(data as T);
+        }, this.errorHandler(sub));
+    } else {
+      this.http.post(environment.apiUrl + path, data).subscribe((data) => {
+        sub.next(data as T);
+      }, this.errorHandler(sub));
+    }
+
     return sub;
   }
 
-  postAuth<T>(path: string, data: any): Observable<T> {
-    const sub = new Subject<T>();
-    let headers: HttpHeaders = new HttpHeaders({
-      Authorization: 'Token ' + localStorage.getItem('token'),
-    });
-    this.http
-      .post(environment.apiUrl + path, data, { headers: headers })
-      .subscribe((data) => {
-        sub.next(data as T);
-      }, this.errorHandler(sub));
-    return sub;
-  }
+  // postAuth<T>(path: string, data: any): Observable<T> {
+  //   const sub = new Subject<T>();
+  //   let headers: HttpHeaders = new HttpHeaders({
+  //     Authorization: 'Token ' + localStorage.getItem('token'),
+  //   });
+  //   this.http
+  //     .post(environment.apiUrl + path, data, { headers: headers })
+  //     .subscribe((data) => {
+  //       sub.next(data as T);
+  //     }, this.errorHandler(sub));
+  //   return sub;
+  // }
 
   deleteAuth<T>(path: string): Observable<T> {
     const sub = new Subject<T>();
@@ -61,19 +85,6 @@ export class ApiService {
       .delete(environment.apiUrl + path, { headers: headers })
       .subscribe((data) => {
         sub.next(data as T);
-      }, this.errorHandler(sub));
-    return sub;
-  }
-
-  getAuth<T>(path: string): Observable<T> {
-    const sub = new Subject<T>();
-    let headers: HttpHeaders = new HttpHeaders({
-      Authorization: 'Token ' + localStorage.getItem('token'),
-    });
-    this.http
-      .get<T>(environment.apiUrl + path, { headers: headers })
-      .subscribe((data) => {
-        sub.next(data);
       }, this.errorHandler(sub));
     return sub;
   }

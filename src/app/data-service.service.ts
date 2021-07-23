@@ -20,23 +20,16 @@ export class DataServiceService {
   constructor(private api: ApiService, private http: HttpClient) {}
 
   JsonArticle?: Array<JsonData>;
-  // errorHandler(sub: Subject<any>) {
-  //   return (error: any) => {
-  //     sub.error(error);
-  //   };
-  // }
 
   favouriteArticle(slag: string) {
     const sub = new Subject<JsonData>();
-    this.api
-      .postAuth<articleResponse>(`/articles/${slag}/favorite`, '')
-      .subscribe(
-        (data) => {
-          sub.next(data.article);
-          console.log(`fav article method ==>`, data.article);
-        },
-        (e) => sub.error(e)
-      );
+    this.api.post<articleResponse>(`/articles/${slag}/favorite`, '').subscribe(
+      (data) => {
+        sub.next(data.article);
+        console.log(`fav article method ==>`, data.article);
+      },
+      (e) => sub.error(e)
+    );
 
     return sub;
   }
@@ -59,7 +52,7 @@ export class DataServiceService {
   followUser(username: string) {
     const sub = new Subject<profile>();
     this.api
-      .postAuth<profileResponse>(`/profiles/${username}/follow`, '')
+      .post<profileResponse>(`/profiles/${username}/follow`, '')
       .subscribe(
         (data) => {
           sub.next(data.profile);
@@ -89,7 +82,7 @@ export class DataServiceService {
   getYourFeed(): Observable<JsonData[]> {
     const sub = new Subject<JsonData[]>();
     this.api
-      .getAuth<{ articles: JsonData[] }>('/articles/feed')
+      .get<{ articles: JsonData[] }>('/articles/feed')
       .subscribe((data) => {
         sub.next(data.articles);
       }, this.api.errorHandler(sub));
@@ -104,14 +97,12 @@ export class DataServiceService {
     tagList: string[];
   }) {
     const sub = new Subject<JsonData>();
-    this.api
-      .postAuth<articleResponse>('/articles', { article: data })
-      .subscribe(
-        (data) => {
-          sub.next(data.article);
-        },
-        (e) => sub.error(e)
-      );
+    this.api.post<articleResponse>('/articles', { article: data }).subscribe(
+      (data) => {
+        sub.next(data.article);
+      },
+      (e) => sub.error(e)
+    );
     return sub;
   }
 
