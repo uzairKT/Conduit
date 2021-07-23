@@ -1,9 +1,10 @@
 <div class="tag-list">
   <div *ngFor="let tag of tagList" style="display: inline-block">
     <a
-      [routerLink]="['/HashSearch/', tag]"
+      (click)="onTagClick(tag)"
       class="tag-default tag-pill ng-binding ng-scope"
       >{{ tag }}‌</a
     >
   </div>
 </div>
+<!-- [routerLink]="['/HashSearch/', tag]" -->

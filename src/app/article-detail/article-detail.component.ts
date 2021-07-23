@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { JsonData } from 'src/data';
+import { ActivatedRoute, Router } from '@angular/router';
+import { JsonData, profile } from 'src/data';
 import { DataServiceService } from '../data-service.service';
 
 @Component({
@@ -11,11 +11,16 @@ import { DataServiceService } from '../data-service.service';
 export class ArticleDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
-    private dataService: DataServiceService
+    private dataService: DataServiceService,
+    private router: Router
   ) {}
 
   slagVal = '';
   article?: JsonData;
+  username?: string;
+  follow?: boolean;
+  favourite?: boolean;
+  test: any;
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((x) => {
@@ -24,7 +29,60 @@ export class ArticleDetailComponent implements OnInit {
       // this.article = this.dataService.getItemBySlag(this.slagVal);
       this.dataService
         .getItemBySlag(this.slagVal)
-        .subscribe((data: JsonData) => (this.article = data));
+        .subscribe((data: JsonData) => {
+          this.article = data;
+          this.username = this.article.author.username;
+          this.favourite = this.article.favorited;
+          console.log('favourite value ==>', this.article.favorited);
+          console.log('follow value ==>', this.article.author.following);
+          console.log(this.article);
+        });
     });
+  }
+
+  onFavouriteClick() {
+    if (this.dataService.getLoggedIn()) {
+      if (!this.article?.favorited) {
+        console.log('slag value ==>', this.slagVal);
+        this.dataService
+          .favouriteArticle(this.slagVal!)
+          .subscribe((data: JsonData) => {
+            this.article!.favorited = data.favorited;
+            this.article!.favoritesCount = data.favoritesCount;
+          });
+      } else if (this.article?.favorited) {
+        console.log('slag value ==>', this.slagVal);
+        this.dataService
+          .unfavouriteArticle(this.slagVal!)
+          .subscribe((data: JsonData) => {
+            this.article!.favorited = data.favorited;
+            this.article!.favoritesCount = data.favoritesCount;
+          });
+      }
+    } else {
+      this.router.navigate(['/login']);
+    }
+  }
+
+  onFollowClick() {
+    if (this.dataService.getLoggedIn()) {
+      if (!this.article?.author.following) {
+        console.log('username value ==>', this.username);
+        this.dataService
+          .followUser(this.username!)
+          .subscribe((data: profile) => {
+            this.article!.author.following = data.following;
+          });
+      } else if (this.article?.author.following) {
+        console.log('username value ==>', this.username);
+        this.dataService
+          .unfollowUser(this.username!)
+          .subscribe((data: profile) => {
+            this.article!.author.following = data.following;
+          });
+      }
+    } else {
+      this.router.navigate(['/login']);
+    }
   }
 }

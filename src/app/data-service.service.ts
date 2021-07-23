@@ -1,14 +1,119 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { Author, JsonData, user, userResponse } from 'src/data';
+import {
+  article,
+  articleResponse,
+  Author,
+  JsonData,
+  profile,
+  profileResponse,
+  user,
+  userResponse,
+} from 'src/data';
+import { environment } from 'src/environments/environment';
 import { ApiService } from './api.service';
 @Injectable({
   providedIn: 'root',
 })
 export class DataServiceService {
-  constructor(private api: ApiService) {}
+  constructor(private api: ApiService, private http: HttpClient) {}
 
   JsonArticle?: Array<JsonData>;
+  // errorHandler(sub: Subject<any>) {
+  //   return (error: any) => {
+  //     sub.error(error);
+  //   };
+  // }
+
+  favouriteArticle(slag: string) {
+    const sub = new Subject<JsonData>();
+    this.api
+      .postAuth<articleResponse>(`/articles/${slag}/favorite`, '')
+      .subscribe(
+        (data) => {
+          sub.next(data.article);
+          console.log(`fav article method ==>`, data.article);
+        },
+        (e) => sub.error(e)
+      );
+
+    return sub;
+  }
+
+  unfavouriteArticle(slag: string) {
+    const sub = new Subject<JsonData>();
+    this.api
+      .deleteAuth<articleResponse>(`/articles/${slag}/favorite`)
+      .subscribe(
+        (data) => {
+          sub.next(data.article);
+          console.log(`fav article method ==>`, data.article);
+        },
+        (e) => sub.error(e)
+      );
+
+    return sub;
+  }
+
+  followUser(username: string) {
+    const sub = new Subject<profile>();
+    this.api
+      .postAuth<profileResponse>(`/profiles/${username}/follow`, '')
+      .subscribe(
+        (data) => {
+          sub.next(data.profile);
+          console.log(`follow user method ==>`, data.profile);
+        },
+        (e) => sub.error(e)
+      );
+
+    return sub;
+  }
+
+  unfollowUser(username: string) {
+    const sub = new Subject<profile>();
+    this.api
+      .deleteAuth<profileResponse>(`/profiles/${username}/follow`)
+      .subscribe(
+        (data) => {
+          sub.next(data.profile);
+          console.log(`unfollow user method ==>`, data.profile);
+        },
+        (e) => sub.error(e)
+      );
+
+    return sub;
+  }
+
+  getYourFeed(): Observable<JsonData[]> {
+    const sub = new Subject<JsonData[]>();
+    this.api
+      .getAuth<{ articles: JsonData[] }>('/articles/feed')
+      .subscribe((data) => {
+        sub.next(data.articles);
+      }, this.api.errorHandler(sub));
+
+    return sub;
+  }
+
+  createArticle(data: {
+    title: string;
+    description: string;
+    body: string;
+    tagList: string[];
+  }) {
+    const sub = new Subject<JsonData>();
+    this.api
+      .postAuth<articleResponse>('/articles', { article: data })
+      .subscribe(
+        (data) => {
+          sub.next(data.article);
+        },
+        (e) => sub.error(e)
+      );
+    return sub;
+  }
 
   signupUser(data: { username: string; emial: string; password: string }) {
     const sub = new Subject<user>();
@@ -115,5 +220,12 @@ export class DataServiceService {
       return true;
     }
     return false;
+  }
+
+  _tagValue = new Subject();
+
+  setSearchValue(tag?: string) {
+    console.log('tag==>', tag);
+    this._tagValue.next(tag);
   }
 }

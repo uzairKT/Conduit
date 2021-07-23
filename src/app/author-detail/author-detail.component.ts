@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Author, JsonData } from 'src/data';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Author, JsonData, profile } from 'src/data';
 import { DataServiceService } from '../data-service.service';
 
 @Component({
@@ -11,7 +11,8 @@ import { DataServiceService } from '../data-service.service';
 export class AuthorDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
-    private dataService: DataServiceService
+    private dataService: DataServiceService,
+    private router: Router
   ) {}
 
   userVal = '';
@@ -31,8 +32,27 @@ export class AuthorDetailComponent implements OnInit {
         .getArticleByUsername(this.userVal)
         .subscribe((data: JsonData[]) => (this.articles = data));
     });
+  }
 
-    //   this.author = this.dataService.getAuthorByUsername(this.userVal);
-    // });
+  onFollowClick() {
+    if (this.dataService.getLoggedIn()) {
+      if (!this.author!.following) {
+        console.log('username value ==>', this.userVal);
+        this.dataService
+          .followUser(this.userVal!)
+          .subscribe((data: profile) => {
+            this.author!.following = data.following;
+          });
+      } else if (this.author!.following) {
+        console.log('username value ==>', this.userVal);
+        this.dataService
+          .unfollowUser(this.userVal!)
+          .subscribe((data: profile) => {
+            this.author!.following = data.following;
+          });
+      }
+    } else {
+      this.router.navigate(['/login']);
+    }
   }
 }

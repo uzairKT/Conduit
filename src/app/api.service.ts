@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -23,11 +23,58 @@ export class ApiService {
     return sub;
   }
 
+  put<T>(path: string, data: any): Observable<T> {
+    const sub = new Subject<T>();
+    this.http.put(environment.apiUrl + path, data).subscribe((data) => {
+      sub.next(data as T);
+    }, this.errorHandler(sub));
+    return sub;
+  }
+
   post<T>(path: string, data: any): Observable<T> {
     const sub = new Subject<T>();
     this.http.post(environment.apiUrl + path, data).subscribe((data) => {
       sub.next(data as T);
     }, this.errorHandler(sub));
+    return sub;
+  }
+
+  postAuth<T>(path: string, data: any): Observable<T> {
+    const sub = new Subject<T>();
+    let headers: HttpHeaders = new HttpHeaders({
+      Authorization: 'Token ' + localStorage.getItem('token'),
+    });
+    this.http
+      .post(environment.apiUrl + path, data, { headers: headers })
+      .subscribe((data) => {
+        sub.next(data as T);
+      }, this.errorHandler(sub));
+    return sub;
+  }
+
+  deleteAuth<T>(path: string): Observable<T> {
+    const sub = new Subject<T>();
+    let headers: HttpHeaders = new HttpHeaders({
+      Authorization: 'Token ' + localStorage.getItem('token'),
+    });
+    this.http
+      .delete(environment.apiUrl + path, { headers: headers })
+      .subscribe((data) => {
+        sub.next(data as T);
+      }, this.errorHandler(sub));
+    return sub;
+  }
+
+  getAuth<T>(path: string): Observable<T> {
+    const sub = new Subject<T>();
+    let headers: HttpHeaders = new HttpHeaders({
+      Authorization: 'Token ' + localStorage.getItem('token'),
+    });
+    this.http
+      .get<T>(environment.apiUrl + path, { headers: headers })
+      .subscribe((data) => {
+        sub.next(data);
+      }, this.errorHandler(sub));
     return sub;
   }
 }

@@ -29,3 +29,27 @@ export interface user {
 export interface userResponse {
   user: user;
 }
+
+export interface articleResponse {
+  article: JsonData;
+}
+export interface article {
+  title: string;
+  description: string;
+  body: string;
+  tagList: string[];
+}
+export interface profile {
+  username: string;
+  bio: null;
+  image: string;
+  following: boolean;
+}
+
+export interface profileResponse {
+  profile: profile;
+}
+
+export interface articleResponse {
+  article: JsonData;
+}

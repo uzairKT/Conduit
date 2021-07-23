@@ -19,15 +19,14 @@
             class="author ng-binding authoExtra"
             >{{ article?.author?.username }}</a
           >
-          <span class="date ng-binding">{{
-            article?.createdAt | date
-          }}</span>
+          <span class="date ng-binding">{{ article?.createdAt | date }}</span>
         </div>
 
         <!-- Otherwise, show favorite & follow buttons -->
         <span ng-hide="$ctrl.canModify" class="ng-scope">
           <button
             class="btn btn-sm action-btn ng-binding btn-outline-secondary"
+            (click)="onFollowClick()"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -41,7 +40,8 @@
                 d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
               />
             </svg>
-            &nbsp; Follow {{ article?.author?.username }}
+            &nbsp; {{ article?.author?.following ? "unFollow" : "follow" }}
+            {{ article?.author?.username }}
           </button>
 
           <button class="btn btn-sm btn-outline-success">
@@ -58,7 +58,11 @@
                 d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
               />
             </svg>
-            <span class="ng-binding ng-scope"> Favorite Article </span
+            <span class="ng-binding ng-scope" (click)="onFavouriteClick()"
+              >{{
+                article?.favorited ? "unFavorite Article" : "Favorite Article"
+              }}
+              Favorite Article </span
             ><span class="counter ng-binding ng-scope"
               >({{ article?.favoritesCount }})</span
             >

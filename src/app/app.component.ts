@@ -1,6 +1,7 @@
 import { SlicePipe } from '@angular/common';
 import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { JsonData } from 'src/data';
 import { DataServiceService } from './data-service.service';
@@ -13,7 +14,10 @@ import { DataServiceService } from './data-service.service';
 export class AppComponent implements OnInit {
   title = 'conduit';
 
-  constructor(private dataService: DataServiceService) {}
+  constructor(
+    private dataService: DataServiceService,
+    private router: Router
+  ) {}
 
   user = false;
   userName = '';
@@ -34,5 +38,6 @@ export class AppComponent implements OnInit {
     localStorage.removeItem('token');
     localStorage.removeItem('userName');
     this.dataService.userNav.next(this.dataService.getLoggedIn());
+    this.router.navigate(['/login']);
   }
 }
