@@ -1,0 +1,61 @@
+<div class="user-info">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-md-10 offset-md-1">
+        <img class="user-img" [src]="author?.image" />
+        <h4>{{ author?.username }}</h4>
+        <p></p>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Article Toggle Starts-->
+<div class="conatiner">
+  <div class="row">
+    <div class="col-2"></div>
+    <div class="col-8">
+      <div class="feed-toggle">
+        <ul class="nav nav-pills outline-active">
+          <li class="nav-item" style="display: inherit">
+            <a
+              class="nav-link"
+              [ngClass]="{ active: myArticle === true }"
+              style="cursor: pointer"
+              (click)="onMyArticle()"
+            >
+              My Articles
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              [ngClass]="{ active: FavArticle === true }"
+              (click)="onFavArticle()"
+              style="cursor: pointer"
+            >
+              Favourited Articles
+            </a>
+          </li>
+        </ul>
+        <hr />
+      </div>
+
+      <div *ngIf="myArticle">
+        <div *ngFor="let article of articles">
+          <app-article [article]="article"></app-article>
+          <hr />
+        </div>
+      </div>
+      <div *ngIf="FavArticle">
+        <div *ngFor="let article of favArticles">
+          <app-article [article]="article"></app-article>
+          <hr />
+        </div>
+      </div>
+    </div>
+    <div class="col-2"></div>
+  </div>
+</div>
+
+<!--Article Toggle Ends-->

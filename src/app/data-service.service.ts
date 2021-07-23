@@ -150,6 +150,18 @@ export class DataServiceService {
     return sub;
   }
 
+  getFavouritedArticle(username: string): Observable<JsonData[]> {
+    const sub = new Subject<JsonData[]>();
+    this.api
+      .get<{ articles: JsonData[] }>('/articles/?favorited=' + username)
+      .subscribe((data) => {
+        sub.next(data.articles);
+      }, this.api.errorHandler(sub));
+
+    return sub;
+  }
+
+
   getAuthorByUsername(username: string): Observable<Author> {
     const sub = new Subject<Author>();
     this.api

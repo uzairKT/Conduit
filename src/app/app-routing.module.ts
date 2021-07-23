@@ -10,10 +10,12 @@ import { NewArticleComponent } from './new-article/new-article.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { SignupComponent } from './signup/signup.component';
 import { TagSearchComponent } from './tag-search/tag-search.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 const routes: Routes = [
   { path: 'article/:slag', component: ArticleDetailComponent },
   { path: 'author/:username', component: AuthorDetailComponent },
+  { path: 'user/:username', component: UserProfileComponent },
   { path: 'HashSearch/:tag', component: TagSearchComponent },
   {
     path: 'newarticle',

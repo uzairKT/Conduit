@@ -20,6 +20,7 @@ import { NewArticleComponent } from './new-article/new-article.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SignupComponent } from './signup/signup.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { SignupComponent } from './signup/signup.component';
     LoginComponent,
     NewArticleComponent,
     SignupComponent,
+    UserProfileComponent,
   ],
   imports: [
     BrowserModule,

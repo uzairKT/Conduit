@@ -97,7 +97,11 @@
         </li>
 
         <li class="nav-item">
-          <a class="nav-link ng-binding" ui-sref-active="active">
+          <a
+            class="nav-link ng-binding"
+            ui-sref-active="active"
+            [routerLink]="['/user/', userName]"
+          >
             {{ userName }}
             <img class="user-pic" />
           </a>
