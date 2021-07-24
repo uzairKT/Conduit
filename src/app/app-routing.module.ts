@@ -26,6 +26,11 @@ const routes: Routes = [
     component: NewArticleComponent,
     canActivate: [AuthGuard],
   },
+  {
+    path: 'editor/:slag',
+    component: NewArticleComponent,
+    canActivate: [AuthGuard],
+  },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
   { path: '', component: HomeComponent },

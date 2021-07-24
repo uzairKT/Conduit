@@ -37,9 +37,14 @@ export class ApiService {
 
   put<T>(path: string, data: any): Observable<T> {
     const sub = new Subject<T>();
-    this.http.put(environment.apiUrl + path, data).subscribe((data) => {
-      sub.next(data as T);
-    }, this.errorHandler(sub));
+    let headers: HttpHeaders = new HttpHeaders({
+      Authorization: 'Token ' + localStorage.getItem('token'),
+    });
+    this.http
+      .put(environment.apiUrl + path, data, { headers: headers })
+      .subscribe((data) => {
+        sub.next(data as T);
+      }, this.errorHandler(sub));
     return sub;
   }
 
@@ -62,19 +67,6 @@ export class ApiService {
 
     return sub;
   }
-
-  // postAuth<T>(path: string, data: any): Observable<T> {
-  //   const sub = new Subject<T>();
-  //   let headers: HttpHeaders = new HttpHeaders({
-  //     Authorization: 'Token ' + localStorage.getItem('token'),
-  //   });
-  //   this.http
-  //     .post(environment.apiUrl + path, data, { headers: headers })
-  //     .subscribe((data) => {
-  //       sub.next(data as T);
-  //     }, this.errorHandler(sub));
-  //   return sub;
-  // }
 
   delete<T>(path: string): Observable<T> {
     const sub = new Subject<T>();

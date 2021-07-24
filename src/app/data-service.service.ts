@@ -21,6 +21,58 @@ export class DataServiceService {
 
   JsonArticle?: Array<JsonData>;
 
+  deleteArticle(slag: string) {
+    const sub = new Subject<JsonData>();
+    this.api.delete<articleResponse>(`/articles/${slag}`).subscribe(
+      (data) => {
+        sub.next(data.article);
+        console.log(`delete article method ==>`);
+      },
+      (e) => sub.error(e)
+    );
+
+    return sub;
+  }
+
+  createArticle(data: {
+    title: string;
+    description: string;
+    body: string;
+    tagList: string[];
+  }) {
+    const sub = new Subject<JsonData>();
+    this.api.post<articleResponse>('/articles', { article: data }).subscribe(
+      (data) => {
+        sub.next(data.article);
+      },
+      (e) => sub.error(e)
+    );
+    return sub;
+  }
+
+  updateArticle(
+    data: {
+      title: string;
+      description: string;
+      body: string;
+      tagList: string[];
+    },
+    slag: string
+  ) {
+    const sub = new Subject<JsonData>();
+    this.api
+      .put<articleResponse>(`/articles/${slag}`, { article: data })
+      .subscribe(
+        (data) => {
+          sub.next(data.article);
+          console.log(`update article method ==>`);
+        },
+        (e) => sub.error(e)
+      );
+
+    return sub;
+  }
+
   favouriteArticle(slag: string) {
     const sub = new Subject<JsonData>();
     this.api.post<articleResponse>(`/articles/${slag}/favorite`, '').subscribe(
@@ -36,34 +88,16 @@ export class DataServiceService {
 
   unfavouriteArticle(slag: string) {
     const sub = new Subject<JsonData>();
-    this.api
-      .delete<articleResponse>(`/articles/${slag}/favorite`)
-      .subscribe(
-        (data) => {
-          sub.next(data.article);
-          console.log(`fav article method ==>`, data.article);
-        },
-        (e) => sub.error(e)
-      );
+    this.api.delete<articleResponse>(`/articles/${slag}/favorite`).subscribe(
+      (data) => {
+        sub.next(data.article);
+        console.log(`fav article method ==>`, data.article);
+      },
+      (e) => sub.error(e)
+    );
 
     return sub;
   }
-
-  deleteArticle(slag: string) {
-    const sub = new Subject<JsonData>();
-    this.api
-      .delete<articleResponse>(`/articles/${slag}`)
-      .subscribe(
-        (data) => {
-          sub.next(data.article);
-          console.log(`delete article method ==>`);
-        },
-        (e) => sub.error(e)
-      );
-
-    return sub;
-  }
-
 
   followUser(username: string) {
     const sub = new Subject<profile>();
@@ -82,15 +116,13 @@ export class DataServiceService {
 
   unfollowUser(username: string) {
     const sub = new Subject<profile>();
-    this.api
-      .delete<profileResponse>(`/profiles/${username}/follow`)
-      .subscribe(
-        (data) => {
-          sub.next(data.profile);
-          console.log(`unfollow user method ==>`, data.profile);
-        },
-        (e) => sub.error(e)
-      );
+    this.api.delete<profileResponse>(`/profiles/${username}/follow`).subscribe(
+      (data) => {
+        sub.next(data.profile);
+        console.log(`unfollow user method ==>`, data.profile);
+      },
+      (e) => sub.error(e)
+    );
 
     return sub;
   }
@@ -103,22 +135,6 @@ export class DataServiceService {
         sub.next(data.articles);
       }, this.api.errorHandler(sub));
 
-    return sub;
-  }
-
-  createArticle(data: {
-    title: string;
-    description: string;
-    body: string;
-    tagList: string[];
-  }) {
-    const sub = new Subject<JsonData>();
-    this.api.post<articleResponse>('/articles', { article: data }).subscribe(
-      (data) => {
-        sub.next(data.article);
-      },
-      (e) => sub.error(e)
-    );
     return sub;
   }
 
@@ -176,7 +192,6 @@ export class DataServiceService {
 
     return sub;
   }
-
 
   getAuthorByUsername(username: string): Observable<Author> {
     const sub = new Subject<Author>();

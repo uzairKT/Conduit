@@ -73,7 +73,7 @@
         <span *ngIf="swapOptions" ng-hide="$ctrl.canModify" class="ng-scope">
           <button
             class="btn btn-sm action-btn ng-binding btn-outline-secondary"
-            (click)="onEditClick()"
+            [routerLink]="['/editor/', slagVal]"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

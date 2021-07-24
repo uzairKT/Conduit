@@ -1,7 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { JsonData } from 'src/data';
 import { DataServiceService } from '../data-service.service';
 
 @Component({
@@ -11,11 +12,33 @@ import { DataServiceService } from '../data-service.service';
 })
 export class NewArticleComponent implements OnInit {
   constructor(
+    private route: ActivatedRoute,
     private dataService: DataServiceService,
     private router: Router
   ) {}
 
-  ngOnInit(): void {}
+  slagVal = '';
+  article?: JsonData;
+  updateFlag = false;
+
+  ngOnInit(): void {
+    this.route.paramMap.subscribe((x: any) => {
+      console.log(x.get('slag'));
+      this.slagVal = x.get('slag')!;
+
+      if (this.slagVal) {
+        console.log('if working');
+        this.dataService.getItemBySlag(this.slagVal).subscribe((data) => {
+          this.article = data;
+          console.log(this.article);
+          this.articleForm.patchValue(this.article);
+        });
+      } else {
+        console.log('else working');
+      }
+    });
+  }
+
   errorsForUser: string[] = [];
 
   articleForm: FormGroup = new FormGroup({
@@ -44,23 +67,44 @@ export class NewArticleComponent implements OnInit {
 
     // console.log('user is ' + this.dataService.getLoggedIn());
 
-    this.errorsForUser.length = 0;
-    const valueForService = this.articleForm.value;
-    this.dataService.createArticle(valueForService).subscribe(
-      (data) => {
-        this.router.navigate(['']);
-      },
-      (err) => {
-        if (err instanceof HttpErrorResponse && err.status === 422) {
-          Object.keys(err.error.errors).forEach((k) => {
-            err.error.errors[k].forEach((e: string) => {
-              this.errorsForUser.push(k + ' ' + e);
+    if (this.slagVal) {
+      this.errorsForUser.length = 0;
+      const valueForService = this.articleForm.value;
+      this.dataService.updateArticle(valueForService, this.slagVal).subscribe(
+        (data) => {
+          this.router.navigate([`article/${this.slagVal}`]);
+        },
+        (err) => {
+          if (err instanceof HttpErrorResponse && err.status === 422) {
+            Object.keys(err.error.errors).forEach((k) => {
+              err.error.errors[k].forEach((e: string) => {
+                this.errorsForUser.push(k + ' ' + e);
+              });
             });
-          });
-        } else {
-          alert('server is not OK..');
+          } else {
+            alert('server is not OK..');
+          }
         }
-      }
-    );
+      );
+    } else {
+      this.errorsForUser.length = 0;
+      const valueForService = this.articleForm.value;
+      this.dataService.createArticle(valueForService).subscribe(
+        (data) => {
+          this.router.navigate(['']);
+        },
+        (err) => {
+          if (err instanceof HttpErrorResponse && err.status === 422) {
+            Object.keys(err.error.errors).forEach((k) => {
+              err.error.errors[k].forEach((e: string) => {
+                this.errorsForUser.push(k + ' ' + e);
+              });
+            });
+          } else {
+            alert('server is not OK..');
+          }
+        }
+      );
+    }
   }
 }
