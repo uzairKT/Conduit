@@ -24,9 +24,7 @@ export class ArticleDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((x) => {
-      console.log(x.get('slag'));
       this.slagVal = x.get('slag')!;
-      // this.article = this.dataService.getItemBySlag(this.slagVal);
       this.dataService
         .getItemBySlag(this.slagVal)
         .subscribe((data: JsonData) => {
@@ -39,9 +37,6 @@ export class ArticleDetailComponent implements OnInit {
           this.article = data;
           this.username = this.article.author.username;
           this.favourite = this.article.favorited;
-          console.log('favourite value ==>', this.article.favorited);
-          console.log('follow value ==>', this.article.author.following);
-          console.log(this.article);
         });
     });
   }
@@ -49,7 +44,6 @@ export class ArticleDetailComponent implements OnInit {
   onFavouriteClick() {
     if (this.dataService.getLoggedIn()) {
       if (!this.article?.favorited) {
-        console.log('slag value ==>', this.slagVal);
         this.dataService
           .favouriteArticle(this.slagVal!)
           .subscribe((data: JsonData) => {
@@ -57,7 +51,6 @@ export class ArticleDetailComponent implements OnInit {
             this.article!.favoritesCount = data.favoritesCount;
           });
       } else if (this.article?.favorited) {
-        console.log('slag value ==>', this.slagVal);
         this.dataService
           .unfavouriteArticle(this.slagVal!)
           .subscribe((data: JsonData) => {
@@ -73,14 +66,12 @@ export class ArticleDetailComponent implements OnInit {
   onFollowClick() {
     if (this.dataService.getLoggedIn()) {
       if (!this.article?.author.following) {
-        console.log('username value ==>', this.username);
         this.dataService
           .followUser(this.username!)
           .subscribe((data: profile) => {
             this.article!.author.following = data.following;
           });
       } else if (this.article?.author.following) {
-        console.log('username value ==>', this.username);
         this.dataService
           .unfollowUser(this.username!)
           .subscribe((data: profile) => {
@@ -91,10 +82,8 @@ export class ArticleDetailComponent implements OnInit {
       this.router.navigate(['/login']);
     }
   }
-  onEditClick() {}
 
   onDeleteClick() {
-    console.log('slag value ==>', this.slagVal);
     this.dataService.deleteArticle(this.slagVal!);
     this.router.navigate(['']);
   }

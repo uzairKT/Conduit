@@ -30,7 +30,6 @@ export class AppComponent implements OnInit {
     this.userName = this.dataService.getUsername()!;
     this.dataService.userName.subscribe((newUser: any) => {
       this.userName = newUser;
-      console.log('app componenet ma username ', this.userName);
     });
   }
 

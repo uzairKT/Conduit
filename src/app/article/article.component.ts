@@ -24,7 +24,6 @@ export class ArticleComponent implements OnInit {
   onFavouriteClick() {
     if (this.dataService.getLoggedIn()) {
       if (!this.article?.favorited) {
-        console.log('slag value ==>', this.slagVal);
         this.dataService
           .favouriteArticle(this.slagVal!)
           .subscribe((data: JsonData) => {
@@ -32,7 +31,6 @@ export class ArticleComponent implements OnInit {
             this.article!.favoritesCount = data.favoritesCount;
           });
       } else if (this.article?.favorited) {
-        console.log('slag value ==>', this.slagVal);
         this.dataService
           .unfavouriteArticle(this.slagVal!)
           .subscribe((data: JsonData) => {

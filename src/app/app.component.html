@@ -39,11 +39,7 @@
     <div *ngIf="user">
       <ul class="nav navbar-nav pull-xs-right" style="flex-direction: row">
         <li class="nav-item">
-          <a
-            class="nav-link active"
-            ui-sref-active="active"
-            [routerLink]="['']"
-          >
+          <a class="nav-link" ui-sref-active="active" [routerLink]="['']">
             Home
           </a>
         </li>
@@ -110,17 +106,5 @@
     </div>
   </div>
 </nav>
-
-<!-- 
-<app-app-truck [data]="json1"></app-app-truck>
-<app-app-truck [data]="json2"></app-app-truck> -->
-
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * The content above * * * * * * * * * * * -->
-<!-- * * * * * * * * * * is only a placeholder * * * * * * * * * * -->
-<!-- * * * * * * * * * * and can be replaced. * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * End of Placeholder * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
 <router-outlet></router-outlet>

@@ -37,7 +37,6 @@ export class HomeComponent implements OnInit {
 
     this.dataService._tagValue.subscribe((data: any) => {
       this.tagVal = data;
-      console.log('home ma tag value ', this.tagVal);
       this.tag = true;
       this.global = false;
       this.feed = false;
@@ -57,11 +56,6 @@ export class HomeComponent implements OnInit {
     this.feed = true;
     this.tag = false;
   }
-
-  // articleJson2: Array<JsonData> = this.dataService.getArticleList();
-
-  // tagList: Array<string> = this.dataService.getTagList();
-
   test(e: any) {
     console.log('val==>', e);
   }

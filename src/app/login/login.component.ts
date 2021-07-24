@@ -42,11 +42,6 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {}
 
   OnLoginClick() {
-    // console.log('user is ' + this.dataService.getLoggedIn());
-    // this.dataService.setLoggedIn(!this.dataService.getLoggedIn());
-
-    // console.log('user is ' + this.dataService.getLoggedIn());
-
     this.errorsForUser.length = 0;
     const valueForService = this.loginForm.value;
     this.dataService.loginUser(valueForService).subscribe(

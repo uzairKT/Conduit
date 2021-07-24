@@ -25,11 +25,9 @@ export class TagSearchComponent implements OnInit {
       this.dataService
         .getTagListApi()
         .subscribe((data) => (this.tagList = data));
-      this.dataService.getArticlesByTag(this.tagVal)
+      this.dataService
+        .getArticlesByTag(this.tagVal)
         .subscribe((data: JsonData[]) => (this.articleJson = data));
-      // this.articleJson = this.dataService.getItemByTag(this.tagVal);
     });
   }
-
-  // articleJson: Array<JsonData> = this.dataService.getArticleList();
 }

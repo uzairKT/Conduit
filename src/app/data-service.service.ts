@@ -244,8 +244,6 @@ export class DataServiceService {
     this.userNav.next(this.getLoggedIn());
     this.userName.next(this.getUsername());
   }
-
-  // getLoggedIn1 = () => JSON.parse(localStorage.getItem('token')!) as boolean;
   getUsername() {
     return localStorage.getItem('userName')?.slice(1, -1);
   }

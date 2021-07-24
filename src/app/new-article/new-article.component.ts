@@ -23,18 +23,14 @@ export class NewArticleComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((x: any) => {
-      console.log(x.get('slag'));
       this.slagVal = x.get('slag')!;
 
       if (this.slagVal) {
-        console.log('if working');
         this.dataService.getItemBySlag(this.slagVal).subscribe((data) => {
           this.article = data;
           console.log(this.article);
           this.articleForm.patchValue(this.article);
         });
-      } else {
-        console.log('else working');
       }
     });
   }
@@ -62,11 +58,6 @@ export class NewArticleComponent implements OnInit {
   }
 
   OnPublishClick() {
-    // console.log('user is ' + this.dataService.getLoggedIn());
-    // this.dataService.setLoggedIn(!this.dataService.getLoggedIn());
-
-    // console.log('user is ' + this.dataService.getLoggedIn());
-
     if (this.slagVal) {
       this.errorsForUser.length = 0;
       const valueForService = this.articleForm.value;

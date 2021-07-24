@@ -22,7 +22,7 @@
           <span class="date ng-binding">{{ article?.createdAt | date }}</span>
         </div>
 
-        <!-- Otherwise, show favorite & follow buttons -->
+        <!--  show favorite & follow buttons -->
         <span *ngIf="!swapOptions" ng-hide="$ctrl.canModify" class="ng-scope">
           <button
             class="btn btn-sm action-btn ng-binding btn-outline-secondary"
@@ -123,7 +123,7 @@
         </div>
 
         <ul class="tag-list">
-          <!-- ngRepeat: tag in ::$ctrl.article.tagList -->
+          <!-- article.tagList -->
         </ul>
       </div>
       <hr />

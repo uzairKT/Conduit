@@ -21,11 +21,9 @@ export class AuthorDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((x) => {
-      console.log(x.get('username'));
       this.userVal = x.get('username')!;
 
       if (this.userVal === localStorage.getItem('userName')?.slice(1, -1)) {
-        
         this.router.navigate(['/user/', this.userVal]);
       }
 
@@ -42,14 +40,12 @@ export class AuthorDetailComponent implements OnInit {
   onFollowClick() {
     if (this.dataService.getLoggedIn()) {
       if (!this.author!.following) {
-        console.log('username value ==>', this.userVal);
         this.dataService
           .followUser(this.userVal!)
           .subscribe((data: profile) => {
             this.author!.following = data.following;
           });
       } else if (this.author!.following) {
-        console.log('username value ==>', this.userVal);
         this.dataService
           .unfollowUser(this.userVal!)
           .subscribe((data: profile) => {
