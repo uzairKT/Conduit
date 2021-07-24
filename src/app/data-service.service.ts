@@ -26,7 +26,6 @@ export class DataServiceService {
     this.api.delete<articleResponse>(`/articles/${slag}`).subscribe(
       (data) => {
         sub.next(data.article);
-        console.log(`delete article method ==>`);
       },
       (e) => sub.error(e)
     );
@@ -65,7 +64,6 @@ export class DataServiceService {
       .subscribe(
         (data) => {
           sub.next(data.article);
-          console.log(`update article method ==>`);
         },
         (e) => sub.error(e)
       );
@@ -78,7 +76,6 @@ export class DataServiceService {
     this.api.post<articleResponse>(`/articles/${slag}/favorite`, '').subscribe(
       (data) => {
         sub.next(data.article);
-        console.log(`fav article method ==>`, data.article);
       },
       (e) => sub.error(e)
     );
@@ -91,7 +88,6 @@ export class DataServiceService {
     this.api.delete<articleResponse>(`/articles/${slag}/favorite`).subscribe(
       (data) => {
         sub.next(data.article);
-        console.log(`fav article method ==>`, data.article);
       },
       (e) => sub.error(e)
     );
@@ -106,7 +102,6 @@ export class DataServiceService {
       .subscribe(
         (data) => {
           sub.next(data.profile);
-          console.log(`follow user method ==>`, data.profile);
         },
         (e) => sub.error(e)
       );
@@ -119,7 +114,6 @@ export class DataServiceService {
     this.api.delete<profileResponse>(`/profiles/${username}/follow`).subscribe(
       (data) => {
         sub.next(data.profile);
-        console.log(`unfollow user method ==>`, data.profile);
       },
       (e) => sub.error(e)
     );
@@ -200,7 +194,6 @@ export class DataServiceService {
       .subscribe((data) => {
         sub.next(data.profile);
       }, this.api.errorHandler(sub));
-    console.log('by username ', sub);
     return sub;
   }
 
@@ -211,7 +204,6 @@ export class DataServiceService {
       .subscribe((data) => {
         sub.next(data.article);
       }, this.api.errorHandler(sub));
-    console.log('by slag ', sub);
     return sub;
   }
 
@@ -257,7 +249,6 @@ export class DataServiceService {
   _tagValue = new Subject();
 
   setSearchValue(tag?: string) {
-    console.log('tag==>', tag);
     this._tagValue.next(tag);
   }
 }
